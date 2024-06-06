@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+}
+.customShadow{
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2) ;
+}
+.userTable{
+    @apply bg-white 
+}
+.userTable th{
+    @apply border text-base font-medium
+}
+.userTable td{
+    @apply border text-base text-center
+}
+/* input{
+    @apply focus:ring-red-800 focus:border-red-800  dark:focus:ring-red-800 dark:focus:border-red-800
+} */
+/**scrollbar hidden****/
+.scrollbar-none::-webkit-scrollbar{
+    display: none;
+}
+/* body{
+    background-color: white;
+} */
+.shad{
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2) ;
+    border: 0.5px solid rgb(193, 198, 203);
+    outline: none;
+    border-radius: 12px;
+}
+.brdr{
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.text1{
+    font-size: 12px;
+    color: rgb(45, 44, 43);
+    position: relative;
+    font-weight: bold;
+    top: 7px;
+    right: 6px;
+}
+.text2{
+    color: rgb(255, 34, 0);
+    font-size: 18px;
+}
+.text3{
+    font-size: 21px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+.active-border {
+    border: 2px solid black;
+}
