@@ -154,7 +154,7 @@ const ProductDetails = () => {
                 ) : (
                     <div className='flex flex-col gap-2'>
                         <p className='bg-blue-200 text-black-600 text-lg px-2 rounded-md p-1 inline-block w-fit'>{data?.brandName}</p>
-                        <h2 className='text-2xl lg:text-4xl font-medium'>{data?.productName}</h2>
+                        <h2 className='text-2xl lg:text-4xl font-medium text-ellipsis line-clamp-1'>{data?.productName}</h2>
                         <p className='capitalize text-lg text-slate-400'>{data?.category}</p>
                         <div className='text-yellow-400 flex items-center gap-1'>
                             <FaStar />

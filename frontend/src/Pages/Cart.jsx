@@ -10,8 +10,12 @@ const Cart = () => {
     const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalProductId, setModalProductId] = useState(null);
+    const [couponCode, setCouponCode] = useState('');
+    const [discountApplied, setDiscountApplied] = useState(false);
+    const [usedCoupons, setUsedCoupons] = useState([]);
     const context = useContext(Context);
     const loadingCart = new Array(4).fill(null);
+    const validCoupons = ['00000', '11111', '55555', 'ooooo', 'aaaaa'];
 
     const fetchData = async () => {
         const response = await fetch(SummaryApi.addToCartViewProduct.url, {
@@ -116,8 +120,25 @@ const Cart = () => {
         setModalVisible(false);
     };
 
+    const applyCoupon = () => {
+        if (validCoupons.includes(couponCode)) {
+            if (usedCoupons.includes(couponCode)) {
+                toast.error('Le code de coupon a déjà été utilisé');
+            } else if (discountApplied) {
+                toast.error('Vous avez limité votre bénéfice en coupon');
+            } else {
+                setDiscountApplied(true);
+                setUsedCoupons([...usedCoupons, couponCode]);
+                toast.success('Vous avez bénéficie du code coupoun avec succès!');
+            }
+        } else {
+            toast.error('Votre Code de coupon est invalide');
+        }
+    };
+
     const totalQty = data.reduce((previousValue, currentValue) => previousValue + currentValue.quantity, 0);
     const totalPrice = data.reduce((prev, curr) => prev + (curr.quantity * curr?.productId?.sellingPrice), 0);
+    const discountedPrice = discountApplied ? totalPrice * 0.8 : totalPrice;
 
     return (
         <div className='container mx-auto'>
@@ -160,7 +181,7 @@ const Cart = () => {
                                                 <td className='px-3 py-2 border '>
                                                     <img src={product?.productId?.productImage[0]} className='w-28 mx-auto h-16 object-scale-down' alt={product?.productId?.productName} />
                                                 </td>
-                                                <td className='px-2 py-1 border text-center truncate max-w-xs' title={product?.productId?.productName}>
+                                                <td className='px-2 py-1 border truncate max-w-xs' title={product?.productId?.productName}>
                                                     {product?.productId?.productName}
                                                 </td>
                                                 <td className='px-2 py-1 border text-center'>{product?.productId?.category}</td>
@@ -187,35 +208,42 @@ const Cart = () => {
                     }
                 </div>
 
-                <div className='flex justify-around '>
+                <div className='flex justify-around w-full'>
                     {/***Coupoun */}
-                    <div className='mt-5 lg:mt-10 w-96  max-w-sm mb-7 mx-auto'>
+                    <div className='w-1/2 p-4'>
                         {
                             loading ? (
                                 <div className='h-36 bg-slate-200 border border-slate-300 animate-pulse'>
                                 </div>
                             ) : (
                                 <div className='bg-white rounded-md h-full'>
-                                    <h2 className='text-white bg-orange-600 p-2 rounded-t-md mb-2 text-center text-lg'>COUPOUN</h2>
+                                    <h2 className='text-white bg-orange-600 p-2 rounded-t-md mb-2 text-center text-lg'>COUPON CODE</h2>
                                     <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600 my-3'>
-                                        <p>Enter your coupoun code to have -20% of TotalPrice :</p>
+                                        <p>Enter your coupon code to have -20% of Total Price :</p>
                                     </div>
                                     <div className='flex items-center justify-between w-full p-4'>
-                                        <input type="text" id="coupoun" class="w-52 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Coupoun Code" required />
-                                        <button className='bg-blue-600 p-2 rounded-lg text-white'>Aplly Coupoun</button>
+                                        <input
+                                            type="text"
+                                            placeholder='Coupoun Code'
+                                            className='border border-slate-300 w-96 p-2 rounded-md focus:outline-none'
+                                            value={couponCode}
+                                            onChange={(e) => setCouponCode(e.target.value)}
+                                            required
+                                        />
+                                        <button onClick={applyCoupon} className='bg-green-600 p-2 rounded-lg text-white text-lg'>Apply Coupon</button>
                                     </div>
                                 </div>
                             )
                         }
                     </div>
                     {/***summary  */}
-                    <div className='mt-5 lg:mt-10 w-full max-w-sm mb-7 mx-auto'>
+                    <div className='w-1/2 p-4'>
                         {
                             loading ? (
                                 <div className='h-36 bg-slate-200 border border-slate-300 animate-pulse'>
                                 </div>
                             ) : (
-                                <div className='h-36 bg-white rounded-md'>
+                                <div className='bg-white rounded-md h-full'>
                                     <h2 className='text-white bg-red-600 p-2 rounded-t-md mb-2 text-center text-lg'>Cart Summary</h2>
                                     <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
                                         <p>Quantity :</p>
@@ -223,7 +251,7 @@ const Cart = () => {
                                     </div>
                                     <div className='flex items-center justify-between px-4 gap-2 font-medium text-lg text-slate-600'>
                                         <p>Total Price :</p>
-                                        <p>{displayDHCurrency(totalPrice)}</p>
+                                        <p>{displayDHCurrency(discountedPrice)}</p>
                                     </div>
                                     <button className='bg-blue-600 p-2 text-white w-full mt-4 rounded-b-md text-xl'>Payment</button>
                                 </div>
@@ -231,7 +259,6 @@ const Cart = () => {
                         }
                     </div>
                 </div>
-
             </div>
 
             {modalVisible && (
@@ -248,9 +275,9 @@ const Cart = () => {
                                 <svg className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
-                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
-                                <button onClick={handleDeleteConfirm} type="button" className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                                    Yes, I'm sure
+                                <h3 className="mb-5 text-lg font-normal text-white dark:text-white pb-2">Are you sure you want to delete this product?</h3>
+                                <button onClick={handleDeleteConfirm} type="button" className="text-white bg-red-700 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                    Yes, Delete
                                 </button>
                                 <button onClick={() => setModalVisible(false)} type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                     No, cancel
