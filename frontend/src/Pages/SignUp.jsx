@@ -182,7 +182,7 @@ const SignUp = () => {
 
                     </form>
 
-                    <p className='my-5'>Already have account ? <Link to={"/login"} className=' text-red-600 hover:text-red-700 hover:underline'>Login</Link></p>
+                    <p className='my-5'>Already have account ? <Link to={"/login"} className=' text-violet-600 hover:text-violet-700 hover:underline'>Login</Link></p>
                 </div>
 
 

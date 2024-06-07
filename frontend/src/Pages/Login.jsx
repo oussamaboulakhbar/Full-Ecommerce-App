@@ -87,7 +87,7 @@ const Login = () => {
                         </div>
                         <button className='red hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] hover:scale-110 transition-all rounded-full mx-auto mt-6 block'>Login</button>
                     </form>
-                    <p className='my-5'>Don't have account ? <Link to={"/sign-up"} className='text-red-600 hover:text-red-700 hover:underline'>Sign up</Link></p>
+                    <p className='my-5'>Don't have account ? <Link to={"/sign-up"} className='text-violet-600 hover:text-violet-700 hover:underline'>Sign up</Link></p>
                 </div>
             </div>
         </section>

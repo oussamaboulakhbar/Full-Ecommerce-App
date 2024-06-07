@@ -115,7 +115,7 @@ const Header = () => {
                                     }
                                 </div>
                             </div>
-                            <button className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" onClick={() => setMenu(prev => !prev)}>
+                            <button className="flex text-sm  rounded-full focus:ring-2 focus:ring-gray-300 dark:focus:ring-violet-700" onClick={() => setMenu(prev => !prev)}>
                                 <span className="sr-only">Open user menu</span>
                                 {user?.profilePic ? (
                                     <img className="w-9 h-9 rounded-full" src={user?.profilePic} alt="user" />
