@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import Logo from "./Logo";
-import { FaRegCircleUser } from "react-icons/fa6";
-import {  FaSearch } from "react-icons/fa";
+import image1 from "../assest/ecommerce.png";
+import { FaRegCircleUser, FaXmark } from "react-icons/fa6";
+import { IoSearchSharp } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,44 +12,43 @@ import Role from "../common/role";
 import Context from "../context";
 import { FaShoppingBag } from "react-icons/fa";
 
-
 const Header = () => {
-    const user = useSelector(state => state?.user?.user)
-    const dispatch = useDispatch()
-    const [Menu, setMenu] = useState(false)
-    const [showSearch, setShowSearch] = useState(false); 
-    const context = useContext(Context)
-    const navigate = useNavigate()
-    const searchInput = useLocation()
-    const URLSearch = new URLSearchParams(searchInput?.search)
-    const searchQuery = URLSearch.getAll("q")
-    const [search, setSearch] = useState(searchQuery)
+    const user = useSelector(state => state?.user?.user);
+    const dispatch = useDispatch();
+    const [Menu, setMenu] = useState(false);
+    const [showSearch, setShowSearch] = useState(false);
+    const context = useContext(Context);
+    const navigate = useNavigate();
+    const searchInput = useLocation();
+    const URLSearch = new URLSearchParams(searchInput?.search);
+    const searchQuery = URLSearch.getAll("q");
+    const [search, setSearch] = useState(searchQuery);
 
     const handleLogout = async () => {
         const fetchdata = await fetch(SummaryApi.userLogout.url, {
             method: SummaryApi.userLogout.method,
             credentials: 'include'
-        })
+        });
         const data = await fetchdata.json();
         if (data.success) {
-            toast.success(data.message)
-            dispatch(setUserDetails(null))
-            navigate("/")
+            toast.success(data.message);
+            dispatch(setUserDetails(null));
+            navigate("/");
         }
         if (data.error) {
-            toast.error(data.message)
+            toast.error(data.message);
         }
-    }
+    };
 
     const handleSearch = (e) => {
-        const { value } = e.target
-        setSearch(value)
+        const { value } = e.target;
+        setSearch(value);
         if (value) {
-            navigate(`/Search?q=${value}`)
+            navigate(`/Search?q=${value}`);
         } else {
-            navigate(`/Search`)
+            navigate(`/Search`);
         }
-    }
+    };
 
     return (
         <header className="h-16 shadow-md bg-white fixed z-40 w-full">
@@ -57,40 +56,41 @@ const Header = () => {
                 {/* Logo */}
                 <div>
                     <Link to={"/"} >
-                        <Logo w={100} h={60} />
+                        <img src={image1} alt="" width={"160px"} height={"200px"} />
                     </Link>
                 </div>
-                {/* Barre de recherche */}
-                <form className={`relative  w-[600px] ${showSearch ? "" : "hidden"}`}> {/* Utilisation de la classe "hidden" conditionnelle */}
-                    <button className="absolute left-2 -translate-y-1/2 top-6">
-                        <svg
-                            width="17"
-                            height="16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            role="img"
-                            aria-labelledby="search"
-                            className="w-5 h-5 text-gray-700"
-                        >
-                            <path
-                                d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                                stroke="currentColor"
-                                strokeWidth="1.333"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            ></path>
-                        </svg>
-                    </button>
-                    <input
-                        className="input h-10 rounded-lg w-full px-9 py-3 border-2 border-blue-400 focus:outline-none focus:border-blue-600 placeholder-gray-400 transition-all duration-300 shadow-md"
-                        placeholder="Search Product Here"
-                        onChange={handleSearch}
-                        value={search}
-                        required=""
-                        type="text"
-                    />
-                </form>
-
+                <div className="flex items-center justify-end w-[800px] ml-28 ">
+                    {/* Barre de recherche */}
+                    <form className={`relative w-[400px] ${showSearch ? "" : "hidden"} ml-8`}>
+                        <button className="absolute left-2 -translate-y-1/2 top-6">
+                            <svg
+                                width="17"
+                                height="16"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                role="img"
+                                aria-labelledby="search"
+                                className="w-5 h-5 text-gray-700"
+                            >
+                                <path
+                                    d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                                    stroke="currentColor"
+                                    strokeWidth="1.333"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                ></path>
+                            </svg>
+                        </button>
+                        <input
+                            className="input h-10 rounded-lg w-full px-9 py-3 border-2 border-blue-400 focus:outline-none focus:border-blue-600 placeholder-gray-400 shadow-md"
+                            placeholder="Search Product Here"
+                            onChange={handleSearch}
+                            value={search}
+                            required=""
+                            type="text"
+                        />
+                    </form>
+                </div>
                 {/* Profile */}
                 {
                     user?._id && (
@@ -98,16 +98,16 @@ const Header = () => {
                             <div className="w-20 flex justify-around items-center mr-6">
                                 <div
                                     className='text-2xl min-w-[50px] h-8 flex items-center justify-center cursor-pointer'
-                                    onClick={() => setShowSearch(!showSearch)} 
+                                    onClick={() => setShowSearch(!showSearch)}
                                 >
-                                    <FaSearch />
+                                    {showSearch ? <FaXmark /> : <IoSearchSharp />}
                                 </div>
                                 <div>
                                     {
                                         user?._id && (
                                             <Link to={"/cart"} className='text-2xl relative'>
                                                 <span><FaShoppingBag /></span>
-                                                <div className='bg-red-600 text-white w-4 h-4 rounded-full p-1 flex items-center justify-center absolute -top-1 -right-2'>
+                                                <div className='bg-orange-500 text-white w-4 h-4 rounded-full p-1 flex items-center justify-center absolute -top-1 -right-2'>
                                                     <p className='text-sm'>{context?.cartProductCount}</p>
                                                 </div>
                                             </Link>
@@ -115,7 +115,7 @@ const Header = () => {
                                     }
                                 </div>
                             </div>
-                            <button className="flex text-sm  rounded-full focus:ring-2 focus:ring-gray-300 dark:focus:ring-violet-700" onClick={() => setMenu(prev => !prev)}>
+                            <button className="flex text-sm rounded-full focus:ring-2 focus:ring-gray-300 dark:focus:ring-violet-700" onClick={() => setMenu(prev => !prev)}>
                                 <span className="sr-only">Open user menu</span>
                                 {user?.profilePic ? (
                                     <img className="w-9 h-9 rounded-full" src={user?.profilePic} alt="user" />
@@ -140,12 +140,11 @@ const Header = () => {
                                             </li>
                                         )}
                                         <li className="">
-                                            <button className="flex items-center  p-3 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:text-white dark:hover:text-white" onClick={handleLogout}>
+                                            <button className="flex items-center p-3 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:text-white dark:hover:text-white" onClick={handleLogout}>
                                                 <span>Logout</span>
                                                 <LuLogOut className="ml-2" />
                                             </button>
                                         </li>
-
                                     </ul>
                                 </div>
                             )}

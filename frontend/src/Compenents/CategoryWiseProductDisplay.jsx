@@ -44,8 +44,10 @@ const CategroyWiseProductDisplay = ({ category, heading }) => {
     return (
         <div className='container mx-auto px-4 my-6 relative'>
 
-            <h2 className='text-2xl font-semibold py-4'>{heading}</h2>
-
+            <div className="flex flex-col items-start">
+                <h2 className="text-2xl font-bold mb-1">{heading}</h2>
+                <div className="w-32 h-1 mb-5 bg-red-500"></div>
+            </div>
 
             <div className='grid grid-cols-[repeat(auto-fit,minmax(300px,320px))] justify-between md:gap-6 overflow-x-scroll scrollbar-none transition-all'>
                 {
@@ -84,7 +86,7 @@ const CategroyWiseProductDisplay = ({ category, heading }) => {
                                             <FaStar />
                                             <FaStar />
                                             <FaStarHalfStroke />
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">4.5</span>
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">4.5</span>
                                         </div>
                                         <div className='flex gap-3'>
                                             <p className='text-red-600 font-medium'>{displayDHCurrency(product?.sellingPrice)}</p>
