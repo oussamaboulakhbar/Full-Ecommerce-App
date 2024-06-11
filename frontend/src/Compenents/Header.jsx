@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
+import { NotificationManager } from 'react-notifications';
 import image1 from "../assest/ecommerce.png";
 import { FaRegCircleUser, FaXmark } from "react-icons/fa6";
 import { IoSearchSharp } from "react-icons/io5";
@@ -6,7 +7,6 @@ import { LuLogOut } from "react-icons/lu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SummaryApi from "../common";
-import { toast } from "react-toastify";
 import { setUserDetails } from "../store/UserSlice";
 import Role from "../common/role";
 import Context from "../context";
@@ -31,12 +31,13 @@ const Header = () => {
         });
         const data = await fetchdata.json();
         if (data.success) {
-            toast.success(data.message);
+            NotificationManager.success(data.message);
             dispatch(setUserDetails(null));
             navigate("/");
+            setMenu(false);
         }
         if (data.error) {
-            toast.error(data.message);
+            NotificationManager.error(data.message);
         }
     };
 
@@ -125,18 +126,20 @@ const Header = () => {
                             </button>
                             {/* Dropdown menu */}
                             {Menu && (
-                                <div className="z-50 absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 divide-y divide-gray-100 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                                <div className=" absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 divide-y divide-gray-100 rounded-lg shadow-md dark:bg-gray-700 z-50 dark:border-gray-600">
                                     <div className="px-2 py-2">
                                         <span className="block text-base font-medium text-gray-800 dark:text-white">MR {user?.name}</span>
                                         <span className="block text-sm text-gray-500 truncate dark:text-gray-400">{user?.email}</span>
                                     </div>
                                     <ul className="py-2" aria-labelledby="user-menu-button">
                                         <li>
-                                            <Link to="/My-Account" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Account</Link>
+                                            <Link to="/My-Account" onClick={()=>{setMenu(false)}}  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" >My Account</Link>
                                         </li>
                                         {user?.role === Role.ADMIN && (
                                             <li>
-                                                <Link to="/admin-panel/all-products" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Admin Panel</Link>
+                                                <Link to="/admin-panel/all-products" onClick={() => {
+                                                    setMenu(false);
+                                                }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Admin Panel</Link>
                                             </li>
                                         )}
                                         <li className="">

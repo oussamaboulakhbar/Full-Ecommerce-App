@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer} from 'react-notifications';
 import './App.css';
 import Header from './Compenents/Header';
-import Foter from './Compenents/Footer';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Footer from './Compenents/Footer';
 import SummaryApi from './common';
 import Context from './context';
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,7 @@ function App() {
   const [cartProductCount, setCartProductCount] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  const fetchUserdetails = async () => {
+  const fetchUserDetails = async () => {
     const dataResponse = await fetch(SummaryApi.current_user.url, {
       method: SummaryApi.current_user.method,
       credentials: 'include'
@@ -37,9 +37,8 @@ function App() {
   };
 
   useEffect(() => {
-    fetchUserdetails();
+    fetchUserDetails();
     fetchUserAddToCart();
-
     const handleScroll = () => {
       if (window.scrollY > 100) {
         setShowScrollTop(true);
@@ -47,7 +46,6 @@ function App() {
         setShowScrollTop(false);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -62,20 +60,20 @@ function App() {
   return (
     <>
       <Context.Provider value={{
-        fetchUserdetails, // user details fetch
+        fetchUserDetails, // user details fetch
         cartProductCount, // current-user add to cart product count list
         fetchUserAddToCart
       }}>
-        <ToastContainer />
+        <NotificationContainer />
         <Header />
         <main className='min-h-[calc(100vh-100px)] pt-16'>
           <Outlet />
         </main>
-        <Foter />
+        <Footer />
         {showScrollTop && (
           <div 
             onClick={scrollToTop} 
-            className="fixed bottom-4 right-4 p-3 bg-green-500 hover:bg-green-600 text-xl z-50 text-white rounded-full cursor-pointer"
+            className="fixed bottom-4 right-4 p-3 bg-blue-500 hover:bg-blue-600 text-xl z-50 text-white rounded-full cursor-pointer"
           >
             <FaAnglesUp size={24} />
           </div>

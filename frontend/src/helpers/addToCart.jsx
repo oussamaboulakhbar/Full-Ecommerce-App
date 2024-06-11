@@ -1,5 +1,5 @@
 import SummaryApi from "../common"
-import { toast } from 'react-toastify'
+import { NotificationManager} from 'react-notifications';
 
 const addToCart = async(e,id) =>{
     e?.stopPropagation()
@@ -19,11 +19,11 @@ const addToCart = async(e,id) =>{
     const responseData = await response.json()
 
     if(responseData.success){
-        toast.success(responseData.message)
+        NotificationManager.success(responseData.message)
     }
 
     if(responseData.error){
-        toast.error(responseData.message)
+        NotificationManager.error(responseData.message)
     }
 
 

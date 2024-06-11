@@ -6,7 +6,7 @@ import uploadImage from '../helpers/UploadImage';
 import DisplayImage from './Displayimage';
 import { MdDelete } from "react-icons/md";
 import SummaryApi from '../common';
-import { toast } from 'react-toastify';
+import { NotificationManager} from 'react-notifications';
 
 const UploadProduct = ({ onClose, fetchData }) => {
     const [data, setData] = useState({
@@ -70,12 +70,12 @@ const UploadProduct = ({ onClose, fetchData }) => {
         });
         const responseData = await response.json();
         if (responseData.success) {
-            toast.success(responseData?.message);
+            NotificationManager.success(responseData?.message);
             onClose();
             fetchData();
         }
         if (responseData.error) {
-            toast.error(responseData?.message);
+            NotificationManager.error(responseData?.message);
         }
     };
 

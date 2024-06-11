@@ -3,7 +3,7 @@ import SummaryApi from '../common';
 import Context from '../context';
 import { MdDelete } from "react-icons/md";
 import displayDHCurrency from '../helpers/DisplayDHCurrency';
-import { toast } from 'react-toastify';
+import { NotificationManager} from 'react-notifications';
 
 const Cart = () => {
     const [data, setData] = useState([]);
@@ -109,7 +109,7 @@ const Cart = () => {
         const responseData = await response.json();
 
         if (responseData.success) {
-            toast.success(responseData.message);
+            NotificationManager.success(responseData.message);
             fetchData();
             context.fetchUserAddToCart();
         }
@@ -123,16 +123,16 @@ const Cart = () => {
     const applyCoupon = () => {
         if (validCoupons.includes(couponCode)) {
             if (usedCoupons.includes(couponCode)) {
-                toast.error('Le code de coupon a déjà été utilisé');
+                NotificationManager.error('Le code de coupon a déjà été utilisé');
             } else if (discountApplied) {
-                toast.error('Vous avez limité votre bénéfice en coupon');
+                NotificationManager.error('Vous avez limité votre bénéfice en coupon');
             } else {
                 setDiscountApplied(true);
                 setUsedCoupons([...usedCoupons, couponCode]);
-                toast.success('Vous avez bénéficie du code coupoun avec succès!');
+                NotificationManager.success('Vous avez bénéficie du code coupoun avec succès!');
             }
         } else {
-            toast.error('Votre Code de coupon est invalide');
+            NotificationManager.error('Votre Code de coupon est invalide');
         }
     };
 

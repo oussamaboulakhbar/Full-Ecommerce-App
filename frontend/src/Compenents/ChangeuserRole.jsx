@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Role from '../common/role';
 import { IoMdClose } from "react-icons/io";
 import SummaryApi from '../common';
-import { toast } from 'react-toastify';
+import { NotificationManager} from 'react-notifications';
 
 const ChangeuserRole = ({ name, email, role, userId, Onclose, callFunc }) => {
     const [UserRole, setUserRole] = useState(role);
@@ -23,15 +23,15 @@ const ChangeuserRole = ({ name, email, role, userId, Onclose, callFunc }) => {
             const fetchResponse = await fetchData.json();
 
             if (fetchResponse.success) {
-                toast.success(fetchResponse.message);
+                NotificationManager.success(fetchResponse.message);
                 Onclose();
                 callFunc();
             } else {
-                toast.error(fetchResponse.message);
+                NotificationManager.error(fetchResponse.message);
             }
             console.log("Role updated:", fetchResponse);
         } catch (error) {
-            toast.error("Failed to update role");
+            NotificationManager.error("Failed to update role");
             console.error("Error updating role:", error);
         }
     };

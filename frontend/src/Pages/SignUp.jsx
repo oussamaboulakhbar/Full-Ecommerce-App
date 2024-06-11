@@ -5,7 +5,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import imageTobase64 from '../helpers/imagetobase64';
 import SummaryApi from '../common';
-import { toast } from 'react-toastify';
+import { NotificationManager} from 'react-notifications';
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false)
@@ -61,16 +61,16 @@ const SignUp = () => {
             const dataApi = await dataResponse.json()
 
             if (dataApi.success) {
-                toast.success(dataApi.message)
+                NotificationManager.success(dataApi.message)
                 navigate("/login")
             }
 
             if (dataApi.error) {
-                toast.error(dataApi.message)
+                NotificationManager.error(dataApi.message)
             }
 
         } else {
-            toast.error("Please check password and confirm password")
+            NotificationManager.error("Please check password and confirm password")
         }
 
     }

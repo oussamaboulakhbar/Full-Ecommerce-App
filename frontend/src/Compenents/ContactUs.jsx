@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { FaFacebookF, FaTwitter, FaInstagram, FaGooglePlusG } from 'react-icons/fa';
 import { FaPhone } from 'react-icons/fa6';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { NotificationManager} from 'react-notifications';
 
 const ContactUs = () => {
     const [submitCount, setSubmitCount] = useState(0);
@@ -10,9 +9,9 @@ const ContactUs = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (submitCount === 0) {
-            toast.info("Your message is sending");
+            NotificationManager.info("Your message is sending");
         } else if (submitCount >= 1) {
-            toast.error("You have already sent the message");
+            NotificationManager.error("You have already sent the message");
         }
         setSubmitCount(submitCount + 1);
     };
@@ -27,7 +26,7 @@ const ContactUs = () => {
                 <div className="w-full lg:w-[1200px] bg-white p-20 m-2 rounded-lg shadow-xl flex flex-col lg:flex-row">
                     {/* Contact Information */}
                     <div className="lg:w-1/2 pr-8">
-                        <h2 className="text-3xl font-bold text-orange-400 mb-4">Contact Us</h2>
+                        <h2 className="text-3xl font-bold text-blue-400 mb-4">Contact Us</h2>
                         <p className="mb-4">Ecommerce@gmail.com</p>
                         <p className="mb-4">Albandox-Ecommerce-App</p>
                         <p className="mb-4">Morooco </p>
@@ -71,7 +70,6 @@ const ContactUs = () => {
                         </form>
                     </div>
                 </div>
-                <ToastContainer />
             </div>
         </>
     );

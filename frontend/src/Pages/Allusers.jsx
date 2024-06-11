@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SummaryApi from '../common';
-import { toast } from 'react-toastify';
+import { NotificationManager} from 'react-notifications';
 import moment from 'moment';
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import ChangeuserRole from '../Compenents/ChangeuserRole';
@@ -25,10 +25,10 @@ const Allusers = () => {
             if (dataResponse.success) {
                 setAllUsers(dataResponse.data);
             } else {
-                toast.error(dataResponse.message);
+                NotificationManager.error(dataResponse.message);
             }
         } catch (error) {
-            toast.error("Failed to fetch users");
+            NotificationManager.error("Failed to fetch users");
             console.error("Error fetching users:", error);
         }
     };
