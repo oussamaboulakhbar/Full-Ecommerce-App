@@ -35,7 +35,7 @@
 
 1. Cloner le dépôt depuis GitHub :
 ```
-git clone https://github.com/AhmedBaid/Full-Ecommerce-App
+git clone https://github.com/oussamaboulakhbar/Full-Ecommerce-App.git
 ```
 2. Installer les dépendances pour le frontend et le backend :
 
