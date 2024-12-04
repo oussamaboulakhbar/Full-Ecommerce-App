@@ -73,7 +73,4 @@ Les contributions sont les bienvenues ! Si vous souhaitez contribuer à ce proje
 - [Oussama Boulakhbar](https://github.com/Oussama1975)
 - [Ahmed Baid](https://github.com/ahmedbaid37)
 
-## Licence
 
-Ce projet est sous licence [MIT](LICENSE).
-## Assest : https://drive.google.com/drive/folders/1KmY74OYniEodtOVAjNGJv4628HghRbcQ?usp=sharing
